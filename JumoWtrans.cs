@@ -16,8 +16,8 @@ namespace JumoDevices
 
         public string GetVersion()
         {
-            var reg1 = Client.ReadInputRegisters(0, 5).GetString();
-            var reg2 = Client.ReadInputRegisters(0x33, 2).GetString();
+            var reg1 = Client.ReadInputRegisters(0, 5).AsString();
+            var reg2 = Client.ReadInputRegisters(0x33, 2).AsString();
 
             return reg1;
         }
@@ -28,7 +28,7 @@ namespace JumoDevices
             int address = 0x67 + (channel - 1) * valSize;
             var reg1 = Client.ReadInputRegisters(address, 2);
 
-            float val = reg1.GetFloat();
+            float val = reg1.AsFloat();
             ValidateFloatValue(val);
             return val;
         }
@@ -36,20 +36,20 @@ namespace JumoDevices
         public uint ReadUpdateTime(int channel)
         {
             var reg1 = Client.ReadInputRegisters(0x87 + (channel-1)*2, 2);
-            return reg1.GetUint32();
+            return reg1.AsUint32();
         }
 
         public ushort ReadTransmitInterval(int i)
         {
             var reg1 = Client.ReadInputRegisters(0xA7, 1);
-            return reg1.GetUint16();
+            return reg1.AsUint16();
         }
 
         public float ReadDisplayValue(int channel)
         {
             var addr = 0x00E7 + --channel *2;
             var reg = Client.ReadInputRegisters(addr, 2);
-            var val = reg.GetFloat();
+            var val = reg.AsFloat();
             ValidateFloatValue(val);
             return val;
         }
@@ -89,14 +89,14 @@ namespace JumoDevices
         {
             var addr = 0x03d5 + --channel * 2;
             var reg = Client.ReadInputRegisters(addr, 2);
-            return reg.GetUint32();
+            return reg.AsUint32();
         }
 
         public uint ReadTransmitterID(int channel)
         {
             var addr = 0x03B5 + --channel * 2;
             var reg = Client.ReadHoldingRegisters(addr, 2);
-            return reg.GetUint32();
+            return reg.AsUint32();
         }
     }
 
